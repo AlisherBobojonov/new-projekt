@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корзина — Магазин</title>
+  <link rel="shortcut icon" href="https://novoplast.ua/assets/images/products/2181/650x650/s-7098.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <link rel="stylesheet" href="Кор.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --card: #12151a;
+      --muted: #9aa4b2;
+      --text: #e6ebf0;
+      --accent: #6ea8fe;
+      --accent-2: #7ef0c1;
+      --danger: #ff6b6b;
+      --border: #1e2530;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
+      background: linear-gradient(180deg, #0a0c10, #0e1218);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+    }
+
+    @media (max-width: 980px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .summary {
+        position: static;
+        top: auto;
+      }
+    }
+
+    .card {
+      background: linear-gradient(180deg, #141922, #0f131a);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0 18px;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: .3px;
+    }
+
+    /* Cart list */
+    .cart {
+      padding: 18px;
+    }
+
+    .cart-head {
+      display: grid;
+      grid-template-columns: 1fr 120px 140px 40px;
+      gap: 16px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed var(--border);
+    }
+
+    @media (max-width: 780px) {
+      .cart-head {
+        display: none;
+      }
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 1fr 120px 140px 40px;
+      gap: 16px;
+      padding: 14px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: radial-gradient(1000px 200px at 0% 0%, rgba(110, 168, 254, 0.06), transparent 35%),
+        linear-gradient(180deg, #121722, #0f141b);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+
+    .cart-item+.cart-item {
+      margin-top: 12px;
+    }
+
+    .cart-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+      border-color: #263041;
+    }
+
+    .product {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .product img {
+      width: 88px;
+      height: 88px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .product .title {
+      font-weight: 600;
+    }
+
+    .product .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .price,
+    .total {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-self: start;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      background: #0f131a;
+    }
+
+    .qty input {
+      width: 42px;
+      text-align: center;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .qty button {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0c1016;
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      /* без JS кнопки неактивны */
+    }
+
+    .remove {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: #0c1016;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .remove:hover {
+      color: var(--danger);
+      border-color: #3a2224;
+    }
+
+    /* Summary */
+    .summary {
+      position: sticky;
+      top: 24px;
+      height: max-content;
+      padding: 18px;
+    }
+
+    .summary h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+      color: var(--muted);
+    }
+
+    .row .value {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 12px 0;
+      border-radius: 999px;
+    }
+
+    .coupon {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .coupon input {
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0f131a;
+      color: var(--text);
+      padding: 0 12px;
+    }
+
+    .coupon button {
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid #2e3a4e;
+      background: linear-gradient(180deg, #1a2340, #0f1830);
+      color: var(--text);
+      font-weight: 600;
+      cursor: not-allowed;
+    }
+
+    .ship {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .ship .opt {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #0f131a;
+    }
+
+    .ship .opt small {
+      color: var(--muted);
+    }
+
+    .checkout {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .btn {
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      letter-spacing: .3px;
+      cursor: pointer;
+      transition: transform .06s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #2a8cff, #1763ff);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(23, 99, 255, .35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: #2b3750;
+      color: var(--text);
+    }
+
+    /* Footer note */
+    .note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* Mobile stacking for item cells */
+    @media (max-width: 780px) {
+
+      .cart-item,
+      .cart-head {
+        grid-template-columns: 1fr;
+      }
+
+      .price,
+      .qty,
+      .total {
+        justify-self: start;
+      }
+
+      .cart-item .cell-label {
+        display: inline-block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+    }
+
+    /* Empty state */
+    .empty {
+      padding: 48px 18px;
+      text-align: center;
+      color: var(--muted);
+      display: none;
+      /* сделайте display:block когда корзина пустая */
+    }
+
+    .empty h3 {
+      color: var(--text);
+    }
+
+    .empty .btn {
+      width: 260px;
+      margin: 12px auto 0;
+      display: block;
+    }
+    body {
+      background:url(https://img.freepik.com/free-photo/3d-render-low-poly-network-communications-design_1048-13796.jpg?semt=ais_incoming&w=740&q=80);
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="contain">
+      <div class="vxod">
+        <h1 class="logo">🏬Alishop</h1>
+        <a class="v7" href="вход.html">Вход</a>
+      </div>
+      <nav>
+        <ul>
+          <li class="v1"><a href="Проект.html">⚙️Главная</a></li>
+          <li class="v2"><a href="Недвижимость.html">🏠Недвижимость</a></li>
+          <li class="v3"><a href="Транспорт.html">🛻Транспорт</a></li>
+          <li class="v4"><a href="Одежда.html">👕Одежда</a></li>  
+          <li class="v5"><a href="Телефоны.html">📱Телефоны</a></li>
+          <li class="v6"><a href="Корзина.html">🗑️Корзина</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <section class="card cart">
+      <div class="page-title">🛒 Корзина</div>
+      <div class="cart-head">
+        <div>Товар</div>
+        <div>Цена</div>
+        <div>Количество</div>
+        <div></div>
+      </div>
+
+      <!-- ТОВАР 1 -->
+      <article class="cart-item">
+        <div class="product">
+          <img
+            src="https://storage.alifshop.tj/media/images/alifshop/22130/besprovodnye-naushniki-marshall-major-iv-chernyy-1713263942163-lg.webp"
+            alt="Наушники" />
+          <div>
+            <div class="title">Беспроводные наушники ZX-9</div>
+            <div class="meta">Цвет: Чёрный · Арт: ZX9-001</div>
+          </div>
+        </div>
+        <div class="price"><span class="cell-label">Цена</span>1 299 с</div>
+        <div>
+          <span class="cell-label">Количество</span>
+          <div class="qty" aria-label="Количество">
+            <button aria-hidden="true">−</button>
+            <input type="text" value="1" inputmode="numeric" aria-label="Штук" />
+            <button aria-hidden="true">+</button>
+          </div>
+        </div>
+        <button class="remove" title="Удалить">
+          ✕
+        </button>
+      </article>
+
+      <!-- ТОВАР 2 -->
+      <article class="cart-item">
+        <div class="product">
+          <img
+            src="https://resizer.mail.ru/p/09b1cd4b-7a65-5d2f-829f-4b7ed3f36550/AQAK2s1ptqUob7xVMBefyn0Lt_TglHW-_qTmoKTALTgJn86xjc_sM7Gxre_tKfPCXpCdrfwXcODtNZ85qoiejS8tcHE.jpg"
+            alt="Смарт‑часы" />
+          <div>
+            <div class="title">Смартфон FitPro S3</div>
+            <div class="meta">Размер: 44 мм · Арт: FPS3-044</div>
+          </div>
+        </div>
+        <div class="price"><span class="cell-label">Цена</span>4 199 с</div>
+        <div>
+          <span class="cell-label">Количество</span>
+          <div class="qty" aria-label="Количество">
+            <button aria-hidden="true">−</button>
+            <input type="text" value="2" inputmode="numeric" aria-label="Штук" />
+            <button aria-hidden="true">+</button>
+          </div>
+        </div>
+        <button class="remove" title="Удалить">✕</button>
+      </article>
+      <!-- ПУСТО (пример) -->
+      <div class="empty">
+        <h3>Ваша корзина пуста</h3>
+        <p>Добавьте товары из каталога, чтобы оформить заказ.</p>
+        <button class="btn btn-outline">Перейти в каталог</button>
+      </div>
+    </section>
+
+    <aside class="card summary" aria-label="Итоги заказа">
+      <h3>Итог заказа</h3>
+
+      <div class="row"><span>Подытог</span><span class="value">4 ,? с</span></div>
+      <div class="row"><span>Скидка</span><span class="value">—</span></div>
+      <div class="row"><span>Доставка</span><span class="value">Бесплатно</span></div>
+      <div class="divider"></div>
+      <div class="row" style="font-size:18px"><span><strong>Итого</strong></span><span class="value"><strong>3 ?
+            с</strong></span></div>
+
+      <label class="coupon" aria-label="Купон">
+        <input type="text" placeholder="Купон на скидку" />
+        <button disabled>Применить</button>
+      </label>
+
+      <div class="ship" aria-label="Способ доставки">
+        <div class="opt">
+          <div>
+            <div>Курьером (1–2 дня)</div>
+            <small>По городу Худжанде</small>
+          </div>
+          <div>Бесплатно</div>
+        </div>
+        <div class="opt">
+          <div>
+            <div>Самовывоз</div>
+            <small>Склад №1, ул. Примерная, 10</small>
+          </div>
+          <div>0 с</div>
+        </div>
+      </div>
+
+      <div class="checkout">
+        <button class="btn btn-primary">Перейти к оформлению</button>
+        <button class="btn btn-outline"><a href="Проект.html">Продолжить покупки</a></button>
+      </div>
+
+    </aside>
+
+  </main>
+  <script>
+    document.querySelectorAll('.cart-item').forEach(item => {
+      const input = item.querySelector('.qty input');
+      const plus = item.querySelector('.qty button:last-child');
+      const minus = item.querySelector('.qty button:first-child');
+      grabCursor: true;
+
+      plus.addEventListener('click', () => {
+        input.value = parseInt(input.value) + 1;
+      });
+      grabCursor: true;
+
+      minus.addEventListener('click', () => {
+        let value = parseInt(input.value);
+        if (value > 1) input.value = value - 1;
+
+      });
+    });
+  </script>
+    <footer>
+      <div class="footer-top">
+          <div class="footer-group">
+              <div class="footer-col ">
+                  <p class="title">About</p>
+                  <p class="info">
+                    Welcome to Alishop! Here we believe shopping should be easy and enjoyable. That’s why we bring together great products, fair prices, and a customer-first approach — so you can shop with confidence anytime.
+                  </p>
+                  <div class="cards">
+                      <i class="fa-brands fa-cc-mastercard"></i>
+                      <i class="fa-brands fa-cc-paypal"></i>
+                      <i class="fa-brands fa-cc-amex"></i>
+                      <i class="fa-brands fa-cc-visa"></i>
+                      <i class="fa-brands fa-cc-discover"></i>
+                  </div>
+                  <p>
+                      <i class="fa-solid fa-lock"></i>
+                      Secure Online Pay
+                  </p>
+              </div>
+              <div class="footer-col">
+                  <p class="title">Categories</p>
+                  <ul>
+                      <li><a href="">Clothing</a></li>
+                      <li><a href="">Lingerie</a></li>
+                      <li><a href="">Footwear</a></li>
+                      <li><a href="">Hand Bag</a></li>
+                      <li><a href="">Jwellery</a></li>
+                      <li><a href="">Belt</a></li>
+                  </ul>
+              </div>
+          </div>
+          <div class="footer-group">
+              <div class="footer-col">
+                  <p class="title">Informations</p>
+                  <ul>
+                      <li><a href="">About Us</a></li>
+                      <li><a href="">Contact Us</a></li>
+                      <li><a href="">Term & Condition</a></li>
+                      <li><a href="">Return & Exchange</a></li>
+                      <li><a href="">Shipping & Delivery</a></li>
+                      <li><a href="">Private Policy</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col contacts">
+                  <p class="title">Contacts</p>
+                  <div class="adress">
+                      <i class="fa-solid fa-location-dot"></i>
+                      Adress : 12 MKP Khujand Pin-Code : 110005
+                  </div>
+                  <div class="contact">
+                      <i class="fa-solid fa-square-phone"></i>
+                      Phone : +992 
+                  </div>
+                  <div class="contact">
+                      <i class="fa-solid fa-envelope"></i>
+                      Email : contact@amazon.com
+                  </div>
+                  <div class="nets">
+                      <a href="">
+                          <i class="fa-brands fa-square-facebook"></i>
+                      </a>
+                      <i class="fa-brands fa-square-google-plus"></i>
+                      <i class="fa-brands fa-instagram"></i>
+                      <i class="fa-brands fa-square-youtube"></i>
+                      <i class="fa-brands fa-twitter"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 Alishop — Smart, safe, and affordable shopping.All rights reserved <i class="fa-solid fa-cart-shopping"></i>
+          
+      </div>
+  </footer>
+</body>
+
+</html>

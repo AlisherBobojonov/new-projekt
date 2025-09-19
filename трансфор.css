@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+.cards {
+    display: flex;
+}
+.card {
+    width: 200px;
+    height: 300px;
+    border: 2px solid green;
+    border-radius: 20px;
+    padding: 50px 20px;
+    font-size: 2rem;
+    text-align: center;
+    margin: 50px;
+    transition: 0.3;    
+}
+.card img {
+    width: 80%;
+    transition: 0.3s;
+} 
+.card1:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px gray;
+}
+.card2 {
+    height: 200px;
+    transform: rotate(45deg) translate(30px);
+}
+.card2 i:hover {
+    color: blue;
+    transform: rotate(-360deg);
+}
+.card3 :hover {
+    transform: scale(1.1) translateY(-15);
+    box-shadow: 0 0 10px gray;
+}
+.card4 :hover {
+    transform: skew(-20deg);
+}
+@keyframes eee {
+    0%{
+        background-color: aqua;
+    }
+    25%{
+        background-color: blueviolet;
+    }
+    50%{
+        color: rgb(13, 255, 0);
+    }
+    75%{
+        color: rgb(255, 8, 0);
+    }
+    100%{
+        color: rgb(255, 174, 0);
+    }
+
+}
+.card5 {
+    animation: eee 5s linear 0s infinite direction fill-mode;
+}
+
+
