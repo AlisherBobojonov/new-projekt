@@ -7,8 +7,7 @@
 }
 
 body {background:url(https://img.freepik.com/free-photo/3d-render-low-poly-network-communications-design_1048-13796.jpg?semt=ais_incoming&w=740&q=80);
-  border: 20px solid rgb(1, 21, 33);
-  border-radius: 20px;
+  
 }
 body::-webkit-scrollbar{
   width: 12px;
@@ -629,5 +628,6 @@ h3 {
     border-radius: 10px;
   }
 }
+
 
 
