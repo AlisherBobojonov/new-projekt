@@ -506,7 +506,9 @@ h3 {
     height: 300px;
   
   }
-  
+  body {
+    border: 10px solid rgb(1, 21, 33);
+  }
   .swiper-slide{
     width: 90%;
     height: 100%;
@@ -612,7 +614,9 @@ h3 {
     height: 100px;
   
   }
-  
+  body {
+    border: 10px solid rgb(1, 21, 33);
+  }
   .swiper-slide{
     width: 90%;
     height: 100%;
@@ -625,3 +629,4 @@ h3 {
     border-radius: 10px;
   }
 }
+
